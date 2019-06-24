@@ -1,5 +1,6 @@
 import React from 'react';
 import './App.css';
+import Loader from 'react-loader'
 const fetch = require("node-fetch")
 
 let cities = {
@@ -22,6 +23,8 @@ class App extends React.Component {
       country: "loading",
       temperature: "loading",
       forecast: "loading",
+      ready: false,
+      
     }
   this.handleLocationChange = this.handleLocationChange.bind(this)
   this.getWeather = this.getWeather.bind(this)
@@ -41,6 +44,7 @@ class App extends React.Component {
         country: data.city.country,
         temperature: Math.floor(data.list[0].main.temp - 272.15),
         forecast: data.list[0].weather[0].description,
+        ready: true,
       })
     })
   }
@@ -50,38 +54,47 @@ class App extends React.Component {
   }
 
   handleLocationChange(event) {
+    this.setState({ready: false})
     this.getWeather(this.buildUrl(cities[event.target.value]))
   }
 
   render(){
-    return (
-      <div className="App">
-          <div id="weatherContainer">
-            <h1>Weather App</h1>
-            <div><span className="infoItem">City: </span>{this.state.city}</div>
-            <div><span className="infoItem">Country: </span>{this.state.country}</div>
-            <div><span className="infoItem">Temperature: </span>{this.state.temperature}</div>
-            <div><span className="infoItem">Forecast: </span>{this.state.forecast}</div>
-
-
-          </div>
-          <div id="citySelector">
-          <label>
-            <select 
-              value={this.state.city} 
-              onChange={this.handleLocationChange}
-            >
-              <option value="Shanghai">Shanghai</option>
-              <option value="New York">New York</option>
-              <option value="Chengdu">Chengdu</option>
-              <option value="Beijing Shi">Beijing</option>
-              <option value="Tokyo">Tokyo</option>
-            </select>
-          </label>
-          
-          </div>
-      </div>
-    );
+    if (this.state.ready){
+      return (
+        <div className="App">
+            <div id="weatherContainer">
+              <h1>Weather App</h1>
+              <div><span className="infoItem">City: </span>{this.state.city}</div>
+              <div><span className="infoItem">Country: </span>{this.state.country}</div>
+              <div><span className="infoItem">Temperature: </span>{this.state.temperature}</div>
+              <div><span className="infoItem">Forecast: </span>{this.state.forecast}</div>
+  
+  
+            </div>
+            <div id="citySelector">
+            <label>
+              <select 
+                value={this.state.city} 
+                onChange={this.handleLocationChange}
+              >
+                <option value="Shanghai">Shanghai</option>
+                <option value="New York">New York</option>
+                <option value="Chengdu">Chengdu</option>
+                <option value="Beijing Shi">Beijing</option>
+                <option value="Tokyo">Tokyo</option>
+              </select>
+            </label>
+            
+            </div>
+        </div>
+      );
+    }
+    else {
+      return (
+      <Loader />
+      )
+    }
+    
   }
   
 }
