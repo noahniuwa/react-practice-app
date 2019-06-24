@@ -66,7 +66,7 @@ class App extends React.Component {
               <h1>Weather App</h1>
               <div><span className="infoItem">City: </span>{this.state.city}</div>
               <div><span className="infoItem">Country: </span>{this.state.country}</div>
-              <div><span className="infoItem">Temperature: </span>{this.state.temperature}</div>
+              <div><span className="infoItem">Temperature: </span>{this.state.temperature}&deg;C</div>
               <div><span className="infoItem">Forecast: </span>{this.state.forecast}</div>
   
   
