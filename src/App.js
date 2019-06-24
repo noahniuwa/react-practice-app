@@ -3,16 +3,16 @@ import './App.css';
 const fetch = require("node-fetch")
 
 let cities = {
-  beijing: "2038349",
-  shanghai: "1796236",
-  chengdu: "1815286",
-  tokyo: "1850147",
-  newYork: "5128638",
+  "Beijing Shi": "2038349",
+  "Shanghai": "1796236",
+  "Chengdu": "1815286",
+  "Tokyo": "1850147",
+  "New York": "5128638",
 }
 const proxy = "https://cors-anywhere.herokuapp.com/"
 const baseUrl = "api.openweathermap.org/data/2.5/forecast?id="
 const apiKey = "&appid=45c646d31cfd97308889a2add1005b9d"
-let startingUrl = proxy + baseUrl + cities.shanghai + apiKey
+let startingUrl = proxy + baseUrl + cities["Shanghai"] + apiKey
 
 class App extends React.Component {
   constructor(){
@@ -36,7 +36,6 @@ class App extends React.Component {
     fetch(url)
     .then(response => response.json())
     .then(data => {
-      console.log(data)
       this.setState({
         city: data.city.name,
         country: data.city.country,
@@ -51,12 +50,6 @@ class App extends React.Component {
   }
 
   handleLocationChange(event) {
-    this.setState({
-      city: "loading",
-      country: "loading",
-      temperature: "loading",
-      forecast: "loading",
-    });
     this.getWeather(this.buildUrl(cities[event.target.value]))
   }
 
@@ -73,15 +66,19 @@ class App extends React.Component {
 
           </div>
           <div id="citySelector">
-          <select 
-            value={this.state.city} 
-            onChange={this.handleLocationChange}
-          >
-            <option value="shanghai">Shanghai</option>
-            <option value="newYork">New York</option>
-            <option value="chengdu">Chengdu</option>
-            <option value="beijing">Beijing</option>
-          </select>
+          <label>
+            <select 
+              value={this.state.city} 
+              onChange={this.handleLocationChange}
+            >
+              <option value="Shanghai">Shanghai</option>
+              <option value="New York">New York</option>
+              <option value="Chengdu">Chengdu</option>
+              <option value="Beijing Shi">Beijing</option>
+              <option value="Tokyo">Tokyo</option>
+            </select>
+          </label>
+          
           </div>
       </div>
     );
