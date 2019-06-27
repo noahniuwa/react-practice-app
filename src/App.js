@@ -12,7 +12,7 @@ let cities = {
 }
 const proxy = 'https://cors-anywhere.herokuapp.com/'
 const baseUrl = 'api.openweathermap.org/data/2.5/forecast?id='
-const apiKey = '&appid=45c646d31cfd97308889a2add1005b9d'
+const apiKey = process.env.REACT_APP_API_KEY
 let startingUrl = proxy + baseUrl + cities['Shanghai'] + apiKey
 
 class App extends React.Component {
@@ -100,5 +100,3 @@ class App extends React.Component {
 }
 
 export default App
-
-
