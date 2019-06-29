@@ -1,6 +1,11 @@
 import React from 'react'
 import './App.css'
 import Loader from 'react-loader'
+import Navbar from 'react-bootstrap/Navbar'
+import Nav from 'react-bootstrap/Nav'
+import Form from 'react-bootstrap/Form'
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
+
 const fetch = require('node-fetch')
 
 let cities = {
@@ -15,7 +20,28 @@ const baseUrl = 'api.openweathermap.org/data/2.5/forecast?id='
 const apiKey = '&appid=45c646d31cfd97308889a2add1005b9d'//process.env.REACT_APP_API_KEY
 let startingUrl = proxy + baseUrl + cities['Shanghai'] + apiKey
 
-class App extends React.Component {
+function AppRouter(){
+  return(
+    <Router>
+      <Navbar bg="dark" variant="dark" expand="lg">
+        <Navbar.Brand>Noah Maizels</Navbar.Brand>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="mr-auto">
+            <Nav.Link href="/">Weather App</Nav.Link>
+            <Nav.Link href="/about/">About</Nav.Link>
+            <Nav.Link href="/docs/">WanDocs</Nav.Link>
+          </Nav>
+        </Navbar.Collapse>
+      </Navbar>
+      <Route path="/" exact component={WeatherApp} />
+      <Route path="/about/" component={About} />
+      <Route path="/docs/" component={WanDocs} />
+    </Router>
+  )
+}
+
+class WeatherApp extends React.Component {
   constructor(){
     super()
     this.state={
@@ -61,14 +87,13 @@ class App extends React.Component {
   render(){
     if (this.state.ready){
       return (
-        <div className='App'>
+        <div className='WeatherApp one-edge-shadow'>
           <div id='weatherContainer'>
             <h1>Weather App</h1>
             <div><span className='infoItem'>City: </span>{this.state.city}</div>
             <div><span className='infoItem'>Country: </span>{this.state.country}</div>
             <div><span className='infoItem'>Temperature: </span>{this.state.temperature}&deg;C</div>
             <div><span className='infoItem'>Forecast: </span>{this.state.forecast}</div>
-
 
           </div>
           <div id='citySelector'>
@@ -86,6 +111,7 @@ class App extends React.Component {
             </label>
             
           </div>
+         
         </div>
       )
     }
@@ -99,4 +125,12 @@ class App extends React.Component {
   
 }
 
-export default App
+function WanDocs(){
+  return <iframe src="https://www.explorewanchain.org"></iframe>
+}
+
+function About(){
+  return <h1>About</h1>
+}
+
+export default AppRouter

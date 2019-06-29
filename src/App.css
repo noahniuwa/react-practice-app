@@ -1,10 +1,21 @@
-.App {
-  text-align: center;
+.WeatherApp {
+  text-align: left;
+  display: inline-block;
+  padding: 30px;
+  background-color: lightgrey;
+  margin: 40px;
+}
+
+.one-edge-shadow {
+	-webkit-box-shadow: 0 8px 6px -6px black;
+	   -moz-box-shadow: 0 8px 6px -6px black;
+	        box-shadow: 0 8px 6px -6px black;
 }
 
 #weatherContainer{
   display: inline-block;
   text-align: left;
+  padding: 30px;
 }
 
 #citySelector {
@@ -14,3 +25,14 @@
 .infoItem{
   font-weight: bold;
 }
+
+iframe{
+  width: 100%;
+  height: 100%;
+}
+
+#root {
+  height: 100%;
+}
+
+html, body { height: 100% }
