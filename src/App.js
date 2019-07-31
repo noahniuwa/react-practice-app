@@ -2,10 +2,8 @@ import React from 'react'
 import './App.css'
 import Navbar from 'react-bootstrap/Navbar'
 import Nav from 'react-bootstrap/Nav'
-import WanDocs from './components/WanDocs'
 import About from './components/About'
 import WeatherApp from './components/WeatherApp'
-import Pagination from './components/Pagination'
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 
 function AppRouter(){
