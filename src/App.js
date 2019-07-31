@@ -18,15 +18,11 @@ function AppRouter(){
           <Nav className="mr-auto">
             <Nav.Link href="/">Weather App</Nav.Link>
             <Nav.Link href="/about/">About</Nav.Link>
-            <Nav.Link href="/docs/">WanDocs</Nav.Link>
-            <Nav.Link href="/pagination/">Pagination</Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Navbar>
       <Route path="/" exact component={WeatherApp} />
       <Route path="/about/" component={About} />
-      <Route path="/docs/" component={WanDocs} />
-      <Route path="/pagination/" component={Pagination} />
     </Router>
   )
 }
