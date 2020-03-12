@@ -2,6 +2,7 @@ import React from 'react'
 import Loader from 'react-loader'
 import locations from '../locations.json'
 
+
 const fetch = require('node-fetch')
 
 const proxy = 'https://cors-anywhere.herokuapp.com/'
@@ -39,8 +40,13 @@ class WeatherApp extends React.Component {
     let queryString = `^${event.target.value}`
     this.setState({location: location})
     let regex = new RegExp(queryString, 'gi')
-    let filtered = locations.filter(location => {
-      return location.name.match(regex)
+    let filtered = locations.filter(place => {
+      if (place.country) {
+        return place.name.match(regex) || place.country.match(regex)
+      }
+      else {
+        return place.name.match(regex)
+      }
     })
     if (location.length > 0){
       this.setState({locationQueryResults: filtered.slice(0,10)})
@@ -91,7 +97,7 @@ class WeatherApp extends React.Component {
           </form>
           <div className='results'>
             {this.state.locationQueryResults.map(result => {
-              return <p onClick={this.handleCityClick} id={result.id} key={result.id}>{result.name}, {result.country}</p>
+              return <p onClick={this.handleCityClick} id={result.id} key={result.id}>{result.name}, {result.state !== '' ? `${result.state},` : ''} {result.country}</p>
             })}
           </div>
         </div>
