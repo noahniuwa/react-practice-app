@@ -49,7 +49,7 @@ class WeatherApp extends React.Component {
       }
     })
     if (location.length > 0){
-      this.setState({locationQueryResults: filtered.slice(0,10)})
+      this.setState({locationQueryResults: filtered.slice(0,15)})
     }
     else {
       this.setState({locationQueryResults: []})
@@ -71,6 +71,7 @@ class WeatherApp extends React.Component {
   }
 
   handleCityClick(event){
+    this.setState({ready: false})
     this.getWeather(this.buildUrl(event.target.id))
   }
 
@@ -91,13 +92,13 @@ class WeatherApp extends React.Component {
           </div>
         
           <form onSubmit={this.handleLocationSubmit}>
-            <input type='text' value={this.state.location} onChange={this.handleLocationChange}>
+            <input className='input' type='text' value={this.state.location} onChange={this.handleLocationChange}>
             </input>
             {/* <input type='submit' ></input> */}
           </form>
           <div className='results'>
             {this.state.locationQueryResults.map(result => {
-              return <p onClick={this.handleCityClick} id={result.id} key={result.id}>{result.name}, {result.state !== '' ? `${result.state},` : ''} {result.country}</p>
+              return <p className='location' onClick={this.handleCityClick} id={result.id} key={result.id}>{result.name}, {result.state !== '' ? `${result.state},` : ''} {result.country}</p>
             })}
           </div>
         </div>
@@ -105,7 +106,27 @@ class WeatherApp extends React.Component {
     }
     else {
       return (
-        <Loader />
+        <div className='WeatherApp one-edge-shadow'>
+          <div id='weatherContainer'>
+            <h1>Weather App</h1>
+            <div><span className='infoItem'>City: </span>Loading...</div>
+            <div><span className='infoItem'>Country: </span>Loading...</div>
+            <div><span className='infoItem'>Temperature: </span>Loading...</div>
+            <div><span className='infoItem'>Forecast: </span>Loading...</div>
+            <Loader />
+          </div>
+        
+          <form onSubmit={this.handleLocationSubmit}>
+            <input className='input' type='text' value={this.state.location} onChange={this.handleLocationChange}>
+            </input>
+            {/* <input type='submit' ></input> */}
+          </form>
+          <div className='results'>
+            {this.state.locationQueryResults.map(result => {
+              return <p className='location' onClick={this.handleCityClick} id={result.id} key={result.id}>{result.name}, {result.state !== '' ? `${result.state},` : ''} {result.country}</p>
+            })}
+          </div>
+        </div>
       )
     }
   }
