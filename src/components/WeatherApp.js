@@ -1,6 +1,7 @@
 import React from 'react'
 import Loader from 'react-loader'
 import locations from '../locations.json'
+import countryCodes from '../countryCodes.json'
 
 
 const fetch = require('node-fetch')
@@ -62,7 +63,7 @@ class WeatherApp extends React.Component {
       .then(data => {
         this.setState({
           city: data.city.name,
-          country: data.city.country,
+          country: countryCodes[data.city.country],
           temperature: Math.floor(data.list[0].main.temp - 272.15),
           forecast: data.list[0].weather[0].description,
           ready: true,
