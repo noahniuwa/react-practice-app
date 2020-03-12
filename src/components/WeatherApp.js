@@ -8,7 +8,7 @@ const fetch = require('node-fetch')
 const proxy = 'https://cors-anywhere.herokuapp.com/'
 const baseUrl = 'api.openweathermap.org/data/2.5/forecast?id='
 const apiKey = '&appid=45c646d31cfd97308889a2add1005b9d'//process.env.REACT_APP_API_KEY
-let startingUrl = proxy + baseUrl + '707860' + apiKey
+let startingUrl = proxy + baseUrl + '5128581' + apiKey
 
 class WeatherApp extends React.Component {
   constructor(){
