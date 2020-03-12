@@ -1,20 +1,13 @@
 import React from 'react'
 import Loader from 'react-loader'
+import locations from '../locations.json'
 
 const fetch = require('node-fetch')
 
-let cities = {
-  'Beijing Shi': '2038349',
-  'Shanghai': '1796236',
-  'Chengdu': '1815286',
-  'Tokyo': '1850147',
-  'New York': '5128638',
-}
 const proxy = 'https://cors-anywhere.herokuapp.com/'
 const baseUrl = 'api.openweathermap.org/data/2.5/forecast?id='
 const apiKey = '&appid=45c646d31cfd97308889a2add1005b9d'//process.env.REACT_APP_API_KEY
-let startingUrl = proxy + baseUrl + cities['Shanghai'] + apiKey
-
+let startingUrl = proxy + baseUrl + '707860' + apiKey
 
 class WeatherApp extends React.Component {
   constructor(){
@@ -25,15 +18,36 @@ class WeatherApp extends React.Component {
       temperature: 'loading',
       forecast: 'loading',
       ready: false,
-      
+      input: '',
+      locationId: '',
+      location: '',
+      locationQueryResults: [],
     }
-    this.handleLocationChange = this.handleLocationChange.bind(this)
     this.getWeather = this.getWeather.bind(this)
     this.buildUrl = this.buildUrl.bind(this)
+    this.handleLocationChange = this.handleLocationChange.bind(this)
+    this.handleCityClick = this.handleCityClick.bind(this)
+    // this.handleLocationSubmit = this.handleLocationSubmit.bind(this)
   }
   
   buildUrl(cityCode){
     return proxy + baseUrl + cityCode + apiKey
+  }
+
+  handleLocationChange(event) {
+    let location = event.target.value
+    let queryString = `^${event.target.value}`
+    this.setState({location: location})
+    let regex = new RegExp(queryString, 'gi')
+    let filtered = locations.filter(location => {
+      return location.name.match(regex)
+    })
+    if (location.length > 0){
+      this.setState({locationQueryResults: filtered.slice(0,10)})
+    }
+    else {
+      this.setState({locationQueryResults: []})
+    }
   }
 
   getWeather(url){
@@ -50,13 +64,12 @@ class WeatherApp extends React.Component {
       })
   }
 
-  componentDidMount(){
-    this.getWeather(startingUrl)
+  handleCityClick(event){
+    this.getWeather(this.buildUrl(event.target.id))
   }
 
-  handleLocationChange(event) {
-    this.setState({ready: false})
-    this.getWeather(this.buildUrl(cities[event.target.value]))
+  componentDidMount(){
+    this.getWeather(startingUrl)
   }
 
   render(){
@@ -69,24 +82,18 @@ class WeatherApp extends React.Component {
             <div><span className='infoItem'>Country: </span>{this.state.country}</div>
             <div><span className='infoItem'>Temperature: </span>{this.state.temperature}&deg;C</div>
             <div><span className='infoItem'>Forecast: </span>{this.state.forecast}</div>
-
           </div>
-          <div id='citySelector'>
-            <label>
-              <select 
-                value={this.state.city} 
-                onChange={this.handleLocationChange}
-              >
-                <option value='Shanghai'>Shanghai</option>
-                <option value='New York'>New York</option>
-                <option value='Chengdu'>Chengdu</option>
-                <option value='Beijing Shi'>Beijing</option>
-                <option value='Tokyo'>Tokyo</option>
-              </select>
-            </label>
-            
+        
+          <form onSubmit={this.handleLocationSubmit}>
+            <input type='text' value={this.state.location} onChange={this.handleLocationChange}>
+            </input>
+            {/* <input type='submit' ></input> */}
+          </form>
+          <div className='results'>
+            {this.state.locationQueryResults.map(result => {
+              return <p onClick={this.handleCityClick} id={result.id} key={result.id}>{result.name}, {result.country}</p>
+            })}
           </div>
-         
         </div>
       )
     }
@@ -95,7 +102,6 @@ class WeatherApp extends React.Component {
         <Loader />
       )
     }
-    
   }
   
 }
